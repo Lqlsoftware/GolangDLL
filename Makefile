@@ -73,13 +73,13 @@ program-c:
 	fi
 
 run-program-c:
-	cd $(BUILD_DIR) && env LD_LIBRARY_PATH=$(BUILD_DIR)  $(BUILD_DIR)/$(PROGRAM_C) &
+	cd $(BUILD_DIR) && env LD_LIBRARY_PATH=$(BUILD_DIR)  $(BUILD_DIR)/$(PROGRAM_C)
 
 run-queue-go:
-	cd $(BUILD_DIR) && $(BUILD_DIR)/$(QUEUE_GO) &
+	cd $(BUILD_DIR) && $(BUILD_DIR)/$(QUEUE_GO)
 
 run-collector-go:
-	cd $(BUILD_DIR) && $(BUILD_DIR)/$(COLLECTOR_GO) &
+	cd $(BUILD_DIR) && $(BUILD_DIR)/$(COLLECTOR_GO)
 
 all: build
 
