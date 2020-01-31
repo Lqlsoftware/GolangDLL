@@ -28,4 +28,3 @@ make run-queue-go
 
 Input message in `program-c` which will go through `queue-go` and come to `collector-go`.
 
-
