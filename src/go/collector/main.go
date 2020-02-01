@@ -15,7 +15,7 @@ func main() {
 	defer context.Close()
 
 	receiver, _ := context.NewSocket(zmq.PULL)
-	receiver.Connect("tcp://127.0.0.1.5001")
+	receiver.Connect("tcp://127.0.0.1:5001")
 	defer receiver.Close()
 
 	for {

@@ -22,7 +22,7 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	socket.Connect("tcp://127.0.0.1.5000")
+	socket.Connect("tcp://127.0.0.1:5000")
 }
 
 //export Enq

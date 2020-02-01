@@ -17,12 +17,12 @@ func main() {
 	// Socket facing clients
 	frontend, _ := context.NewSocket(zmq.PULL)
 	defer frontend.Close()
-	frontend.Bind("tcp://127.0.0.1.5000")
+	frontend.Bind("tcp://127.0.0.1:5000")
 
 	// Socket facing services
 	backend, _ := context.NewSocket(zmq.PUSH)
 	defer backend.Close()
-	backend.Bind("tcp://127.0.0.1.5001")
+	backend.Bind("tcp://127.0.0.1:5001")
 
 	// Start built-in device
 	zmq.Device(zmq.QUEUE, frontend, backend)
