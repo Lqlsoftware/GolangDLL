@@ -13,13 +13,23 @@ var socket 	*zmq.Socket
 
 //export Init
 func Init() {
-	context, _	= zmq.NewContext()
-	socket, _ 	= context.NewSocket(zmq.PUSH)
-	socket.Connect("ipc://queue.ipc")
+	var err error
+	context, err	= zmq.NewContext()
+	if err != nil {
+		panic(err)
+	}
+	socket, err 	= context.NewSocket(zmq.PUSH)
+	if err != nil {
+		panic(err)
+	}
+	socket.Connect("tcp://127.0.0.1.5000")
 }
 
 //export Enq
 func Enq(parameter string) {
-	socket.Send([]byte(parameter), 0)
+	err := socket.Send([]byte(parameter), 0)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Printf("[C] Send a message: \"%s\"\n", parameter)
 }

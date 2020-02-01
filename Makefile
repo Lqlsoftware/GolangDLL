@@ -111,6 +111,3 @@ clean:
 	rm -Rf $(BUILD_DIR)/$(PROGRAM_C)*
 	rm -Rf $(BUILD_DIR)/$(QUEUE_GO)*
 	rm -Rf $(BUILD_DIR)/$(COLLECTOR_GO)*
-
-	# ipc files
-	rm -f $(BUILD_DIR)/*.ipc

@@ -8,17 +8,18 @@
 
 #### For windows
 
-- Install ZeroMQ and pkg-config in msys2-mingw64
-```
-pacman -S pkg-config mingw-w64-x86_64-zeromq
-```
-
-https://zeromq.org/download/#linux
-
-- Modify `Makefile` line 8 as:
+- Install ZeroMQ in msys2-mingw64
 ```shell script
-PKGCONFIG_PATH ?= /mingw64/lib/pkgconfig
+pacman -S mingw-w64-x86_64-zeromq
 ```
+
+- Download pkgconfiglite due to pkg-config has [issue](https://github.com/rust-lang/pkg-config-rs/issues/51) on Windows:
+```shell script
+https://sourceforge.net/projects/pkgconfiglite/
+```
+
+- Copy pkgconfiglite to the msys2' PATH:
+
 
 - Start build
 ```shell script
