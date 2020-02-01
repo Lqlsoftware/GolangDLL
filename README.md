@@ -34,9 +34,9 @@ sudo apt-get install pkg-config
 ```
 
 - Install libzmq:
-
+```shell script
 https://zeromq.org/download/#linux
-
+```
 
 - Modify `Makefile` line 5 as the libzmq version you just install:
 ```
