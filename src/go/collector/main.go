@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	zmq "github.com/alecthomas/gozmq"
 )
 
 func main() {
@@ -10,9 +11,15 @@ func main() {
 	fmt.Println("###          Golang Collector         ###");
 	fmt.Println("#########################################");
 
-	pipeReader := NewReader("queue_collector_pipe.ipc")
+	context, _ := zmq.NewContext()
+	defer context.Close()
+
+	receiver, _ := context.NewSocket(zmq.PULL)
+	receiver.Connect("ipc://collector.ipc")
+	defer receiver.Close()
+
 	for {
-		content := string(pipeReader.Read())
-		fmt.Printf("[COLLECTOR] Receive a message from queue: \"%s\"\n", content)
+		received, _ := receiver.Recv(0)
+		fmt.Printf("[COLLECTOR] Receive a message from queue: \"%s\"\n", string(received))
 	}
 }
