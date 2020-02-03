@@ -15,19 +15,17 @@ DARWIN 	= Darwin
 
 # Project, source, and build paths
 PROJECT_ROOT 		:= $(shell pwd)
-BUILD_DIR 			:= $(PROJECT_ROOT)/bin
-C_SRC_DIR 			:= $(PROJECT_ROOT)/src/c
+BUILD_DIR 		:= $(PROJECT_ROOT)/bin
+C_SRC_DIR 		:= $(PROJECT_ROOT)/src/c
 QUEUE_SRC_DIR 		:= $(PROJECT_ROOT)/src/go/queue
 LIBINTEROP_SRC_DIR 	:= $(PROJECT_ROOT)/src/go/libinterop
 COLLECTOR_SRC_DIR	:= $(PROJECT_ROOT)/src/go/collector
 
 # Golang lib names
-LIBINTEROP_WINDOWS 			:= libinterop_windows.dll
-LIBINTEROP_WINDOWS_HEADER 	:= libinterop_windows.h
-LIBINTEROP_LINUX 			:= libinterop_linux.so
-LIBINTEROP_LINUX_HEADER		:= libinterop_linux.h
-LIBINTEROP_DARWIN 			:= libinterop_darwin.dylib
-LIBINTEROP_DARWIN_HEADER 	:= libinterop_darwin.h
+LIBINTEROP_HEADER	 	:= libinterop.h
+LIBINTEROP_WINDOWS		:= libinterop.dll
+LIBINTEROP_LINUX 		:= libinterop.so
+LIBINTEROP_DARWIN 		:= libinterop.dylib
 
 # Executable names
 PROGRAM_C 	:= program_c
@@ -35,8 +33,8 @@ QUEUE_GO 	:= queue_go
 COLLECTOR_GO:= collector_go
 
 # Complier
-CC 			?= gcc
-GO 			?= go		# Change to your go executable file path
+CC 		?= gcc
+GO 		?= go		# Change to your go executable file path
 CC_FLAGS 	:= -g -O2
 
 
@@ -69,15 +67,7 @@ collector-go:
 
 # C-executable
 program-c:
-	@if [ $(ARCH) = $(DARWIN) ]; \
-	then \
-		$(CC) $(CC_FLAGS) $(C_SRC_DIR)/main.c -o $(BUILD_DIR)/$(PROGRAM_C) -I $(BUILD_DIR) -L $(BUILD_DIR) -linterop_darwin; \
-	elif [ $(ARCH) = $(LINUX) ]; \
-	then \
-		$(CC) $(CC_FLAGS) $(C_SRC_DIR)/main.c -o $(BUILD_DIR)/$(PROGRAM_C) -I $(BUILD_DIR) -L $(BUILD_DIR) -linterop_linux; \
-	else \
-		$(CC) $(CC_FLAGS) $(C_SRC_DIR)/main.c -o $(BUILD_DIR)/$(PROGRAM_C) -I $(BUILD_DIR) -L $(BUILD_DIR) -linterop_windows; \
-	fi
+	$(CC) $(CC_FLAGS) $(C_SRC_DIR)/main.c -o $(BUILD_DIR)/$(PROGRAM_C) -I $(BUILD_DIR) -L $(BUILD_DIR) -linterop
 
 run-program-c:
 	cd $(BUILD_DIR) && env LD_LIBRARY_PATH=$(BUILD_DIR)  $(BUILD_DIR)/$(PROGRAM_C)
@@ -103,9 +93,7 @@ clean:
 	rm -f $(BUILD_DIR)/$(LIBINTEROP_DARWIN)
 
 	# header files
-	rm -f $(BUILD_DIR)/$(LIBINTEROP_WINDOWS_HEADER)
-	rm -f $(BUILD_DIR)/$(LIBINTEROP_LINUX_HEADER)
-	rm -f $(BUILD_DIR)/$(LIBINTEROP_DARWIN_HEADER)
+	rm -f $(BUILD_DIR)/$(LIBINTEROP_HEADER)
 
 	# executable files
 	rm -Rf $(BUILD_DIR)/$(PROGRAM_C)*

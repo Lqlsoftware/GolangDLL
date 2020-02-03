@@ -2,13 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined _WIN32 || defined _WIN64
-#    include "libinterop_windows.h"
-#elif defined __APPLE__ || defined __MACH__
-#    include "libinterop_darwin.h"
-#elif defined unix || defined __unix__ || defined __unix
-#    include "libinterop_linux.h"
-#endif
+// import libinterop
+#include "libinterop.h"
 
 //  convert str to GoString
 void str2GoString(char *str, GoString *gostr)
