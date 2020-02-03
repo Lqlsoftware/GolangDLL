@@ -24,7 +24,7 @@ func main() {
 		panic(err)
 	}
 	defer frontend.Close()
-	err = frontend.Bind("tcp://*:5000")
+	err = frontend.Bind("tcp://127.0.0.1:5000")
 	if err != nil {
 		panic(err)
 	}
@@ -35,7 +35,7 @@ func main() {
 		panic(err)
 	}
 	defer backend.Close()
-	err = backend.Bind("tcp://*:5001")
+	err = backend.Bind("tcp://127.0.0.1:5001")
 	if err != nil {
 		panic(err)
 	}
