@@ -62,14 +62,14 @@ libinterop-no-windows: libinterop-linux \
 
 # Golang queue
 queue-go:
-	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go
+	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go; \
 	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; \
 	then \
 		mv $(BUILD_DIR)/$(QUEUE_GO) $(BUILD_DIR)/$(QUEUE_WIN); \
 	fi
 
 collector-go:
-	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go
+	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go; \
 	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; \
 	then \
 		mv $(BUILD_DIR)/$(COLLECTOR_GO) $(BUILD_DIR)/$(COLLECTOR_WIN); \
