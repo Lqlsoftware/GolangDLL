@@ -132,3 +132,6 @@ clean:
 	rm -Rf $(BUILD_DIR)/$(PROGRAM_C)*
 	rm -Rf $(BUILD_DIR)/$(QUEUE_GO)*
 	rm -Rf $(BUILD_DIR)/$(COLLECTOR_GO)*
+
+	# distribute files
+	rm -Rf $(DIST_DIR)
