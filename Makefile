@@ -30,7 +30,9 @@ LIBINTEROP_DARWIN 		:= libinterop.dylib
 # Executable names
 PROGRAM_C 	:= program_c
 QUEUE_GO 	:= queue_go
-COLLECTOR_GO:= collector_go
+QUEUE_WIN	:= queue_go.exe
+COLLECTOR_GO	:= collector_go
+COLLECTOR_WIN	:= collector_go.exe
 
 # Complier
 CC 		?= gcc
@@ -61,9 +63,17 @@ libinterop-no-windows: libinterop-linux \
 # Golang queue
 queue-go:
 	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go
+	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; \
+	then \
+		mv $(BUILD_DIR)/$(QUEUE_GO) $(BUILD_DIR)/$(QUEUE_WIN); \
+	fi
 
 collector-go:
 	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go
+	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; \
+	then \
+		mv $(BUILD_DIR)/$(COLLECTOR_GO) $(BUILD_DIR)/$(COLLECTOR_WIN); \
+	fi \
 
 # C-executable
 program-c:
