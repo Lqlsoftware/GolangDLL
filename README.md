@@ -1,4 +1,4 @@
-## Golang shared-c lib with IPC
+## Golang shared-c with IPC
 
 ### Dependency
 - golang >= 1.10 (which support generate dll in windows)
@@ -7,6 +7,16 @@
 ### Build
 
 #### For windows
+
+- Install msys2:
+```
+https://www.msys2.org/
+```
+
+- Install `mingw64/mingw-w64-x86_64-gcc` in `msys2-mingw64`:
+```shell script
+pacman -S mingw-w64-x86_64-gcc
+```
 
 - Install ZeroMQ in `msys2-mingw64`
 ```shell script
@@ -20,10 +30,19 @@ https://sourceforge.net/projects/pkgconfiglite/
 
 - Copy `pkgconfiglite` to the PATH of `msys2-mingw64` and make sure that PATH *DON'T* contains any blank(like `C:/Program Files/msys2/mingw64/bin` will cause problems in make build).
 
-
-- Start build
+- Export `go` in `$PATH`:
 ```shell script
-make build
+export PATH=/c/go/bin:$PATH
+```
+
+- Start build:
+```shell script
+make build 
+```
+
+- Distribute to folder `dist`:
+```shell script
+make install 
 ```
 
 #### For Unix like platform (Ubuntu for example)
@@ -55,6 +74,11 @@ find / | grep libzmq
 - Start build
 ```shell script
 make build
+```
+
+- Distribute to folder `dist` (may need root privilege):
+```shell script
+sudo make install 
 ```
 ----
 ### Run
