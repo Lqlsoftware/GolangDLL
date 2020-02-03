@@ -38,8 +38,8 @@ int main()
         // convert to GoString
         GoString go_str;
         str2GoString(str, &go_str);
-        // Enq
-        Enq(go_str);
+        // Send message
+        Send(go_str);
     }
 
     return 0;

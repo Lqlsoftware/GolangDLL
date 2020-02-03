@@ -11,19 +11,38 @@ func main() {
 	fmt.Println("###            Golang Queue           ###");
 	fmt.Println("#########################################");
 
-	context, _ := zmq.NewContext()
+	var err error
+	context, err := zmq.NewContext()
+	if err != nil {
+		panic(err)
+	}
 	defer context.Close()
 
-	// Socket facing clients
-	frontend, _ := context.NewSocket(zmq.PULL)
+	// Socket facing libinterop
+	frontend, err := context.NewSocket(zmq.PULL)
+	if err != nil {
+		panic(err)
+	}
 	defer frontend.Close()
-	frontend.Bind("tcp://127.0.0.1:5000")
+	err = frontend.Bind("tcp://*:5000")
+	if err != nil {
+		panic(err)
+	}
 
-	// Socket facing services
-	backend, _ := context.NewSocket(zmq.PUSH)
+	// Socket facing collector
+	backend, err := context.NewSocket(zmq.PUSH)
+	if err != nil {
+		panic(err)
+	}
 	defer backend.Close()
-	backend.Bind("tcp://127.0.0.1:5001")
+	err = backend.Bind("tcp://*:5001")
+	if err != nil {
+		panic(err)
+	}
 
 	// Start built-in device
-	zmq.Device(zmq.QUEUE, frontend, backend)
+	err = zmq.Device(zmq.QUEUE, frontend, backend)
+	if err != nil {
+		panic(err)
+	}
 }
