@@ -64,13 +64,13 @@ libinterop-no-windows: libinterop-linux \
 # Golang queue
 queue-go:
 	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go; \
-	if [[ $(ARCH) != $(DARWIN) ]] && [[ $(ARCH) != $(LINUX) ]]; then \
+	if [ $(ARCH) != $(DARWIN) ] && [ $(ARCH) != $(LINUX) ]; then \
 		mv $(BUILD_DIR)/$(QUEUE_GO) $(BUILD_DIR)/$(QUEUE_WIN); \
 	fi
 
 collector-go:
 	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go; \
-	if [[ $(ARCH) != $(DARWIN) ]] && [[ $(ARCH) != $(LINUX) ]]; then \
+	if [ $(ARCH) != $(DARWIN) ] && [ $(ARCH) != $(LINUX) ]; then \
 		mv $(BUILD_DIR)/$(COLLECTOR_GO) $(BUILD_DIR)/$(COLLECTOR_WIN); \
 	fi
 
@@ -96,7 +96,7 @@ build: libinterop \
 
 install:
 	# Make dir for distribute
-	if [[ ! -d $(DIST_DIR) ]]; then \
+	if [ ! -d $(DIST_DIR) ]; then \
 		 mkdir $(DIST_DIR); \
 	fi
 	cp $(BUILD_DIR)/$(PROGRAM_C) $(DIST_DIR)
@@ -104,9 +104,9 @@ install:
 	cp $(BUILD_DIR)/$(COLLECTOR_GO)* $(DIST_DIR) 
 
 	# Copying 'libinterop.so' to '/usr/lib/', may need a root privilege
-	if [[ $(ARCH) = $(LINUX) ]]; then \
+	if [ $(ARCH) = $(LINUX) ]; then \
 		cp $(BUILD_DIR)/$(LIBINTEROP_LINUX) /usr/lib/$(LIBINTEROP_LINUX); \
-	elif [[ $(ARCH) = $(DARWIN) ]]; then \
+	elif [ $(ARCH) = $(DARWIN) ]; then \
 		cp $(BUILD_DIR)/$(LIBINTEROP_DARWIN) /usr/local/lib/$(LIBINTEROP_DARWIN); \
 	else \
 		cp $(BUILD_DIR)/$(LIBINTEROP_WINDOWS) $(DIST_DIR); \
