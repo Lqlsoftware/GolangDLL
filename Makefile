@@ -16,6 +16,7 @@ DARWIN 	= Darwin
 # Project, source, and build paths
 PROJECT_ROOT 		:= $(shell pwd)
 BUILD_DIR 		:= $(PROJECT_ROOT)/bin
+DIST_DIR		:= $(PROJECT_ROOT)/dist
 C_SRC_DIR 		:= $(PROJECT_ROOT)/src/c
 QUEUE_SRC_DIR 		:= $(PROJECT_ROOT)/src/go/queue
 LIBINTEROP_SRC_DIR 	:= $(PROJECT_ROOT)/src/go/libinterop
@@ -58,22 +59,20 @@ libinterop: libinterop-windows \
 libinterop-no-unix: libinterop-windows \
 
 libinterop-no-windows: libinterop-linux \
-	libinterop-darwin \
+	libinterop-darwin
 
 # Golang queue
 queue-go:
 	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go; \
-	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; \
-	then \
+	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; then \
 		mv $(BUILD_DIR)/$(QUEUE_GO) $(BUILD_DIR)/$(QUEUE_WIN); \
 	fi
 
 collector-go:
 	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go; \
-	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; \
-	then \
+	if [ $(ARCH) != $(DARWIN) -a $(ARCH) != $(LINUX) ]; then \
 		mv $(BUILD_DIR)/$(COLLECTOR_GO) $(BUILD_DIR)/$(COLLECTOR_WIN); \
-	fi \
+	fi
 
 # C-executable
 program-c:
@@ -94,6 +93,30 @@ build: libinterop \
 	program-c \
 	queue-go \
 	collector-go
+
+install:
+	# Make dir for distribute
+	if [ ! -d $(DIST_DIR) ]; then \
+		 mkdir $(DIST_DIR); \
+	fi
+	cp $(BUILD_DIR)/$(PROGRAM_C) $(DIST_DIR)
+	cp $(BUILD_DIR)/$(QUEUE_GO)* $(DIST_DIR)
+	cp $(BUILD_DIR)/$(COLLECTOR_GO)* $(DIST_DIR) 
+
+	# Copying 'libinterop.so' to '/usr/lib/', may need a root privilege
+	if [ $(ARCH) = $(LINUX) ]; then \
+		cp $(BUILD_DIR)/$(LIBINTEROP_LINUX) /usr/lib/$(LIBINTEROP_LINUX); \
+	elif [ $(ARCH) = $(DARWIN) ]; then \
+		cp $(BUILD_DIR)/$(LIBINTEROP_DARWIN) /usr/local/lib/$(LIBINTEROP_DARWIN); \
+	else \
+		cp $(BUILD_DIR)/$(LIBINTEROP_WINDOWS) $(DIST_DIR); \
+		cp /mingw64/bin/libzmq.dll $(DIST_DIR); \
+		cp /mingw64/bin/libwinpthread-1.dll $(DIST_DIR); \
+		cp /mingw64/bin/libgcc_s_seh-1.dll $(DIST_DIR); \
+		cp /mingw64/bin/libstdc++-6.dll $(DIST_DIR); \
+		cp /mingw64/bin/libsodium-23.dll $(DIST_DIR); \
+	fi
+	
 
 # Clean
 clean:
