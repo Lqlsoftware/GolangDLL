@@ -52,17 +52,9 @@ make install
 sudo apt-get install pkg-config
 ```
 
-- Install libzmq:
+- Install libzmq v4:
 ```shell script
 https://zeromq.org/download/#linux
-```
-
-- Modify `Makefile` line 5 as the libzmq version you just install:
-```
-For 4.x: zmq_4_x
-For 3.x: zmq_3_x
-For 2.1: zmq_2_1
-For 2.2.x: (empty)
 ```
 
 - Find libzmq's pkg-config file `libzmq.pc`:
@@ -70,7 +62,7 @@ For 2.2.x: (empty)
 find / | grep libzmq
 ```
 
-- Modify `Makefile` line 8 as the dir that `libzmq.pc` exist
+- Modify `Makefile` line 5 as the dir that `libzmq.pc` exist
 - Start build
 ```shell script
 make build

@@ -3,7 +3,7 @@ package main
 import (
 	"C"
 	"fmt"
-	zmq "github.com/alecthomas/gozmq"
+	zmq "github.com/pebbe/zmq4"
 	"log"
 )
 
@@ -38,7 +38,7 @@ func Send(parameter string) {
 	// Method to send message to queue
 	var err error
 	// Send message
-	err = socket.Send([]byte(parameter), 0)
+	_, err = socket.Send(parameter, 0)
 	if err != nil {
 		log.Fatal(err)
 	} else {

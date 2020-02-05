@@ -1,9 +1,6 @@
 .PHONY: clean demo run build
 default: build
 
-# ZeroMQ version
-ZEROMQ_TAG := -tags zmq_4_x
-
 # pkg-config PATH
 PKGCONFIG_PATH ?= /usr/lib/x86_64-linux-gnu/pkgconfig
 export PKG_CONFIG_PATH=$(PKGCONFIG_PATH)
@@ -44,13 +41,13 @@ CC_FLAGS 	:= -g -O2
 
 # Golang lib
 libinterop-windows:
-	GOHOSTOS=windows GOHOSTARCH=amd64 CGO_ENABLED=1 $(GO) build $(ZEROMQ_TAG) -i -x -v -ldflags "-s -w" -buildmode=c-shared -o $(BUILD_DIR)/$(LIBINTEROP_WINDOWS) $(LIBINTEROP_SRC_DIR)/*.go
+	GOHOSTOS=windows GOHOSTARCH=amd64 CGO_ENABLED=1 $(GO) build -i -x -v -ldflags "-s -w" -buildmode=c-shared -o $(BUILD_DIR)/$(LIBINTEROP_WINDOWS) $(LIBINTEROP_SRC_DIR)/*.go
 
 libinterop-linux:
-	GOHOSTOS=linux GOHOSTARCH=amd64 CGO_ENABLED=1 $(GO) build $(ZEROMQ_TAG) -i -x -v -ldflags "-s -w" -buildmode=c-shared -o $(BUILD_DIR)/$(LIBINTEROP_LINUX) $(LIBINTEROP_SRC_DIR)/*.go
+	GOHOSTOS=linux GOHOSTARCH=amd64 CGO_ENABLED=1 $(GO) build -i -x -v -ldflags "-s -w" -buildmode=c-shared -o $(BUILD_DIR)/$(LIBINTEROP_LINUX) $(LIBINTEROP_SRC_DIR)/*.go
 
 libinterop-darwin:
-	GOHOSTOS=darwin GOHOSTARCH=amd64 CGO_ENABLED=1 $(GO) build $(ZEROMQ_TAG) -i -x -v -ldflags "-s -w" -buildmode=c-shared -o $(BUILD_DIR)/$(LIBINTEROP_DARWIN) $(LIBINTEROP_SRC_DIR)/*.go
+	GOHOSTOS=darwin GOHOSTARCH=amd64 CGO_ENABLED=1 $(GO) build -i -x -v -ldflags "-s -w" -buildmode=c-shared -o $(BUILD_DIR)/$(LIBINTEROP_DARWIN) $(LIBINTEROP_SRC_DIR)/*.go
 
 libinterop: libinterop-windows \
 	libinterop-linux \
@@ -63,13 +60,13 @@ libinterop-no-windows: libinterop-linux \
 
 # Golang queue
 queue-go:
-	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go; \
+	$(GO) build -i -x -v -o $(BUILD_DIR)/$(QUEUE_GO) $(QUEUE_SRC_DIR)/*.go; \
 	if [ $(ARCH) != $(DARWIN) ] && [ $(ARCH) != $(LINUX) ]; then \
 		mv $(BUILD_DIR)/$(QUEUE_GO) $(BUILD_DIR)/$(QUEUE_WIN); \
 	fi
 
 collector-go:
-	$(GO) build $(ZEROMQ_TAG) -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go; \
+	$(GO) build -i -x -v -o $(BUILD_DIR)/$(COLLECTOR_GO) $(COLLECTOR_SRC_DIR)/*.go; \
 	if [ $(ARCH) != $(DARWIN) ] && [ $(ARCH) != $(LINUX) ]; then \
 		mv $(BUILD_DIR)/$(COLLECTOR_GO) $(BUILD_DIR)/$(COLLECTOR_WIN); \
 	fi
