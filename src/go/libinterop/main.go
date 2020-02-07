@@ -1,5 +1,7 @@
 package main
 
+// #include <curve.h>
+
 import (
 	"C"
 	"fmt"
@@ -34,14 +36,15 @@ func Init() {
 }
 
 //export Send
-func Send(parameter string) {
+func Send(parameter *C.char) {
 	// Method to send message to queue
 	var err error
 	// Send message
-	_, err = socket.Send(parameter, 0)
+	str := C.GoString(parameter)
+	_, err = socket.Send(str, 0)
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		fmt.Printf("[C] Send a message: \"%s\"\n", parameter)
+		fmt.Printf("[C] Send a message: \"%s\"\n", str)
 	}
 }

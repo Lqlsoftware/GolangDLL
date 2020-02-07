@@ -35,11 +35,8 @@ int main()
         // read from input
         printf("Input message: ");
         gets(str);
-        // convert to GoString
-        GoString go_str;
-        str2GoString(str, &go_str);
         // Send message
-        Send(go_str);
+        Send(str);
     }
 
     return 0;
