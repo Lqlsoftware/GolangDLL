@@ -29,7 +29,7 @@ int main()
     // Call the external functions
     //   Function "Init" to create named pipe
     Init();
-    //   Function "Enq" to enqueue string.
+    //   Function "Send" to Send string.
     char str[1000];
     while (1) {
         // read from input

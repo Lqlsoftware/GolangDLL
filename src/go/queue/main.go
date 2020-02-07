@@ -30,7 +30,7 @@ func main() {
 	go Deq(context, q)
 
 	// Block main thread
-	var b chan int
+	var b chan interface{}
 	<-b
 }
 
